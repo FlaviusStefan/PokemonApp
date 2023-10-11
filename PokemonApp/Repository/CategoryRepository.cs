@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PokemonApp.Data;
+﻿using PokemonApp.Data;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
 

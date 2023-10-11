@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PokemonApp.Models;
+﻿using PokemonApp.Models;
 
 namespace PokemonApp.Interfaces
 {

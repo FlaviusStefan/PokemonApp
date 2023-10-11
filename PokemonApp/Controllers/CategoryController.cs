@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PokemonApp.Data;
+using PokemonApp.Interfaces;
 
 namespace PokemonApp.Controllers
 {
@@ -8,12 +8,12 @@ namespace PokemonApp.Controllers
     [ApiController]
     public class CategoryController : Controller
     {
-        private readonly DataContext _context;
-        private readonly Mapper _mapper;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoryController(DataContext context, Mapper mapper)
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _context = context;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
     }

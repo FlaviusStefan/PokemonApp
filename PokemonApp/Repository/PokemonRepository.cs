@@ -17,5 +17,30 @@ namespace PokemonApp.Repository
         {
             return _context.Pokemon.OrderBy(pokemon => pokemon.Id).ToList();
         }
+
+        public Pokemon GetPokemon(int id)
+        {
+            return _context.Pokemon.Where(pokemon => pokemon.Id == id).FirstOrDefault();
+        }
+
+        public Pokemon GetPokemon(string name)
+        {
+            return _context.Pokemon.Where(pokemon => pokemon.Name == name).FirstOrDefault();
+        }
+
+        public decimal GetPokemonRating(int pokemonId)
+        {
+            var review = _context.Reviews.Where(pokemon => pokemon.Id == pokemonId);
+
+            if (review.Count() <= 0)
+                return 0;
+
+            return ((decimal)review.Sum(review=>review.Rating)) / review.Count();
+        }
+
+        public bool PokemonExist(int pokemonId)
+        {
+            return _context.Pokemon.Any(pokemon => pokemon.Id == pokemonId);
+        }
     }
 }

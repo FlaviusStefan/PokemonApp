@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PokemonApp.Interfaces;
 
 namespace PokemonApp.Controllers
 {
@@ -6,5 +7,11 @@ namespace PokemonApp.Controllers
     [ApiController]
     public class PokemonController : Controller
     {
+        private readonly IPokemonRepository _pokemonRepository;
+
+        public PokemonController(IPokemonRepository pokemonRepository)
+        {
+            _pokemonRepository = pokemonRepository;
+        }
     }
 }

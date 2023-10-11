@@ -38,7 +38,7 @@ namespace PokemonApp.Repository
             return ((decimal)review.Sum(review=>review.Rating)) / review.Count();
         }
 
-        public bool PokemonExist(int pokemonId)
+        public bool PokemonExists(int pokemonId)
         {
             return _context.Pokemon.Any(pokemon => pokemon.Id == pokemonId);
         }

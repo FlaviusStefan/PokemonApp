@@ -15,32 +15,32 @@ namespace PokemonApp.Repository
 
         public ICollection<Pokemon> GetPokemons()
         {
-            return _context.Pokemon.OrderBy(pokemon => pokemon.Id).ToList();
+            return _context.Pokemon.OrderBy(p => p.Id).ToList();
         }
 
         public Pokemon GetPokemon(int id)
         {
-            return _context.Pokemon.Where(pokemon => pokemon.Id == id).FirstOrDefault();
+            return _context.Pokemon.Where(p => p.Id == id).FirstOrDefault();
         }
 
         public Pokemon GetPokemon(string name)
         {
-            return _context.Pokemon.Where(pokemon => pokemon.Name == name).FirstOrDefault();
+            return _context.Pokemon.Where(p => p.Name == name).FirstOrDefault();
         }
 
-        public decimal GetPokemonRating(int pokemonId)
+        public decimal GetPokemonRating(int pokeId)
         {
-            var review = _context.Reviews.Where(pokemon => pokemon.Id == pokemonId);
+            var review = _context.Reviews.Where(p => p.Pokemon.Id == pokeId);
 
             if (review.Count() <= 0)
                 return 0;
 
-            return ((decimal)review.Sum(review => review.Rating)) / review.Count();
+            return ((decimal)review.Sum(r => r.Rating) / review.Count());
         }
 
-        public bool PokemonExists(int pokemonId)
+        public bool PokemonExists(int pokeId)
         {
-            return _context.Pokemon.Any(pokemon => pokemon.Id == pokemonId);
+            return _context.Pokemon.Any(p => p.Id == pokeId);
         }
 
         

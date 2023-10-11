@@ -1,13 +1,22 @@
-﻿using PokemonApp.Interfaces;
+﻿using AutoMapper;
+using PokemonApp.Data;
+using PokemonApp.Interfaces;
 using PokemonApp.Models;
 
 namespace PokemonApp.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
+        private readonly DataContext _context;
+
+        public CategoryRepository(DataContext context)
+        {
+            _context = context;
+        }
+
         public bool CategoryExists(int id)
         {
-            throw new NotImplementedException();
+            return _context.Categories.Any(c => c.Id == id); 
         }
 
         public ICollection<Category> GetCategories()

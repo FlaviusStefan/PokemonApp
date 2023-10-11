@@ -27,11 +27,11 @@ namespace PokemonApp.Data
             modelBuilder.Entity<PokemonCategory>()
                         .HasOne(p => p.Pokemon)
                         .WithMany(pc => pc.PokemonCategories)
-                        .HasForeignKey(pid => pid.PokemonId);
+                        .HasForeignKey(p => p.PokemonId);
             modelBuilder.Entity<PokemonCategory>()
-                        .HasOne(c => c.Category)
+                        .HasOne(p => p.Category)
                         .WithMany(pc => pc.PokemonCategories)
-                        .HasForeignKey(cid => cid.CategoryId);
+                        .HasForeignKey(c => c.CategoryId);
 
 
             modelBuilder.Entity<PokemonOwner>()
@@ -39,12 +39,11 @@ namespace PokemonApp.Data
             modelBuilder.Entity<PokemonOwner>()
                         .HasOne(p => p.Pokemon)
                         .WithMany(po => po.PokemonOwners)
-                        .HasForeignKey(pid => pid.PokemonId);
+                        .HasForeignKey(p => p.PokemonId);
             modelBuilder.Entity<PokemonOwner>()
-                        .HasOne(o => o.Owner)
-                        .WithMany(po => po.PokemonOwners)
-                        .HasForeignKey(oid => oid.OwnerId);
-
+                        .HasOne(p => p.Owner)
+                        .WithMany(pc => pc.PokemonOwners)
+                        .HasForeignKey(c => c.OwnerId);
 
         }
     }

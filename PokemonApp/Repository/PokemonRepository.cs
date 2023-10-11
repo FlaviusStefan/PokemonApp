@@ -35,12 +35,14 @@ namespace PokemonApp.Repository
             if (review.Count() <= 0)
                 return 0;
 
-            return ((decimal)review.Sum(review=>review.Rating)) / review.Count();
+            return ((decimal)review.Sum(review => review.Rating)) / review.Count();
         }
 
         public bool PokemonExists(int pokemonId)
         {
             return _context.Pokemon.Any(pokemon => pokemon.Id == pokemonId);
         }
+
+        
     }
 }

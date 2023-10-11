@@ -10,5 +10,6 @@ namespace PokemonApp.Interfaces
         decimal GetPokemonRating(int pokemonId);
         bool PokemonExists(int pokemonId);
 
+
     }
 }

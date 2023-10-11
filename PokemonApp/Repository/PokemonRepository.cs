@@ -1,4 +1,5 @@
 ﻿using PokemonApp.Data;
+using PokemonApp.Models;
 
 namespace PokemonApp.Repository
 {
@@ -9,6 +10,11 @@ namespace PokemonApp.Repository
         public PokemonRepository(DataContext context)
         {
             _context = context;
+        }
+
+        public ICollection<Pokemon> GetPokemons()
+        {
+            return _context.Pokemon.OrderBy(pokemon => pokemon.Id).ToList();
         }
     }
 }

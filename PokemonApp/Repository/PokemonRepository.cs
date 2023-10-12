@@ -18,9 +18,9 @@ namespace PokemonApp.Repository
             return _context.Pokemon.OrderBy(p => p.Id).ToList();
         }
 
-        public Pokemon GetPokemon(int id)
+        public Pokemon GetPokemon(int pokeId)
         {
-            return _context.Pokemon.Where(p => p.Id == id).FirstOrDefault();
+            return _context.Pokemon.Where(p => p.Id == pokeId).FirstOrDefault();
         }
 
         public Pokemon GetPokemon(string name)

@@ -7,7 +7,7 @@ using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
-    [Route("api/[controller")]
+    [Route("api/[controller]")]
     [ApiController]
     public class OwnerController : Controller
     {

@@ -45,7 +45,28 @@ namespace PokemonApp.Repository
 
         public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
         {
-            throw new NotImplementedException();
+            var pokemonOwnerEntity = _context.Owners.Where(a => a.Id == ownerId).FirstOrDefault();
+            var pokemonCategoryEntity = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
+
+            var pokemonOwner = new PokemonOwner()
+            {
+                Owner = pokemonOwnerEntity,
+                Pokemon = pokemon,
+            };
+
+            _context.Add(pokemonOwner);
+
+            var pokemonCategory = new PokemonCategory()
+            {
+                Category = pokemonCategoryEntity,
+                Pokemon = pokemon,
+            };
+
+            _context.Add(pokemonCategory);
+
+            _context.Add(pokemon);
+
+            return Save();
         }
 
         public bool Save()

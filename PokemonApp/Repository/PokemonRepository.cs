@@ -43,6 +43,15 @@ namespace PokemonApp.Repository
             return _context.Pokemon.Any(p => p.Id == pokeId);
         }
 
-        
+        public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }

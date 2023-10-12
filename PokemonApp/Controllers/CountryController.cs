@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
+using PokemonApp.Models;
+using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -14,6 +18,19 @@ namespace PokemonApp.Controllers
             _mapper = mapper;
         }
 
-        
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
+        public IActionResult GetCountries()
+        {
+            var countries = _mapper.Map<List<CountryDto>>(_countryRepository.GetCountries());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(countries);
+
+        }
+
+
     }
 }

@@ -3,7 +3,7 @@ using PokemonApp.Interfaces;
 
 namespace PokemonApp.Controllers
 {
-    public class CountryController
+    public class CountryController : Controller
     {
         private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;

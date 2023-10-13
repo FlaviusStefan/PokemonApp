@@ -12,11 +12,13 @@ namespace PokemonApp.Controllers
     public class OwnerController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
+        private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+        public OwnerController(IOwnerRepository ownerRepository, ICountryRepository countryRepository, IMapper mapper)
         {
             _ownerRepository = ownerRepository;
+            _countryRepository = countryRepository;
             _mapper = mapper;
         }
 
@@ -69,7 +71,7 @@ namespace PokemonApp.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
         [ProducesResponseType(400)]
-        public IActionResult CreateOwner([FromBody] OwnerDto ownerDto)
+        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerDto)
         {
             if (ownerDto == null)
                 return BadRequest(ModelState);
@@ -87,7 +89,26 @@ namespace PokemonApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+
+            /* check database diagramm = if the MODEL contains a parameter from another class, like 
+
+           
+            public class Owner
+            {
+                public int Id { get; set; }
+                public string FirstName { get; set; }
+                public string LastName { get; set; }
+                public string Gym { get; set; }
+            ==> public Country Country { get; set; }
+                public ICollection<PokemonOwner> PokemonOwners { get; set; }
+
+            }
+
+            */
+
             var ownerMap = _mapper.Map<Owner>(ownerDto);
+
+            ownerMap.Country = _countryRepository.GetCountry(countryId);
 
             if (!_ownerRepository.CreateOwner(ownerMap))
             {

@@ -53,7 +53,6 @@ namespace PokemonApp.Repository
                 Owner = pokemonOwnerEntity,
                 Pokemon = pokemon,
             };
-
             _context.Add(pokemonOwner);
 
             var pokemonCategory = new PokemonCategory()
@@ -61,7 +60,6 @@ namespace PokemonApp.Repository
                 Category = pokemonCategoryEntity,
                 Pokemon = pokemon,
             };
-
             _context.Add(pokemonCategory);
 
             _context.Add(pokemon);

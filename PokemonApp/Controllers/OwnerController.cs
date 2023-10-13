@@ -66,6 +66,38 @@ namespace PokemonApp.Controllers
             return Ok(owner);
         }
 
+        [HttpPost]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
+        [ProducesResponseType(400)]
+        public IActionResult CreateOwner([FromBody] OwnerDto ownerDto)
+        {
+            if (ownerDto == null)
+                return BadRequest(ModelState);
+
+            var owner = _ownerRepository.GetOwners()
+                           .Where(c => c.LastName.Trim().ToUpper() == ownerDto.LastName.TrimEnd().ToUpper())
+                           .FirstOrDefault();
+
+            if (owner != null)
+            {
+                ModelState.AddModelError("", "Owner already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var ownerMap = _mapper.Map<Owner>(ownerDto);
+
+            if (!_ownerRepository.CreateOwner(ownerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Succesful");
+        }
+
 
 
     }

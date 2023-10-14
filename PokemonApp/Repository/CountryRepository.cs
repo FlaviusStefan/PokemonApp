@@ -21,7 +21,6 @@ namespace PokemonApp.Repository
         public bool CreateCountry(Country country)
         {
             _context.Add(country);
-
             return Save();
         }
 

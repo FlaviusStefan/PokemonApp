@@ -50,6 +50,10 @@ namespace PokemonApp.Repository
             return saved > 0 ? true : false;
         }
 
-
+        public bool UpdateCountry(Country country)
+        {
+            _context.Update(country);
+            return Save();
+        }
     }
 }

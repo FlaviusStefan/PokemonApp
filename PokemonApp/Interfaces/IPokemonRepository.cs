@@ -12,6 +12,7 @@ namespace PokemonApp.Interfaces
 
         // parameters where <Pokemon> is included
         bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon);
+        bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon);
 
         bool Save();
 

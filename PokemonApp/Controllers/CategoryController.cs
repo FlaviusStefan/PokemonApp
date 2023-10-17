@@ -20,48 +20,6 @@ namespace PokemonApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
-        public IActionResult GetCategories()
-        {
-            var categories = _mapper.Map<List<CategoryDto>>(_categoryRepository.GetCategories());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(categories);
-
-        }
-
-        [HttpGet("{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(Category))]
-        [ProducesResponseType(400)]
-        public IActionResult GetCategory(int categoryId)
-        {
-            if (!_categoryRepository.CategoryExists(categoryId))
-                return NotFound();
-
-            var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(categoryId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(category);
-        }
-
-        [HttpGet("pokemon/{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetPokemonByCategory(int categoryId)
-        {
-            var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonByCategory(categoryId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(pokemons);
-
-        }
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
@@ -92,15 +50,16 @@ namespace PokemonApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
+            return Ok("Operation succesful! You have created the category");
         }
+
 
         [HttpPut("{categoryId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public IActionResult UpdateCategory(int categoryId, [FromBody]CategoryDto updatedCategory) 
+        public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
         {
             if (updatedCategory == null)
                 return BadRequest(ModelState);
@@ -120,16 +79,85 @@ namespace PokemonApp.Controllers
 
             var categoryMap = _mapper.Map<Category>(updatedCategory);
 
-            if(!_categoryRepository.UpdateCategory(categoryMap))
+            if (!_categoryRepository.UpdateCategory(categoryMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category!");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
-
+            return Ok("Operation succesful! You have updated the category");
 
         }
 
+        [HttpDelete("{categoryId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+            {
+                return NotFound();
+            }
+
+            var categoryToDelete = _categoryRepository.GetCategory(categoryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting category");
+            }
+
+            return Ok("Operation succesful! You have deleted the category");
+
+        }
+
+
+        [HttpGet("{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(Category))]
+        [ProducesResponseType(400)]
+        public IActionResult GetCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(categoryId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(category);
+        }
+
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        public IActionResult GetCategories()
+        {
+            var categories = _mapper.Map<List<CategoryDto>>(_categoryRepository.GetCategories());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(categories);
+
+        }
+
+
+        [HttpGet("pokemon/{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPokemonByCategory(int categoryId)
+        {
+            var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonByCategory(categoryId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(pokemons);
+
+        }     
     }
 }

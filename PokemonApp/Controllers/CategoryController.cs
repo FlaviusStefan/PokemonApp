@@ -81,7 +81,7 @@ namespace PokemonApp.Controllers
 
             if (!_categoryRepository.UpdateCategory(categoryMap))
             {
-                ModelState.AddModelError("", "Something went wrong updating category!");
+                ModelState.AddModelError("", "Something went wrong updating the category!");
                 return StatusCode(500, ModelState);
             }
 
@@ -107,7 +107,7 @@ namespace PokemonApp.Controllers
 
             if (!_categoryRepository.DeleteCategory(categoryToDelete))
             {
-                ModelState.AddModelError("", "Something went wrong deleting category!");
+                ModelState.AddModelError("", "Something went wrong deleting the category!");
             }
 
             return Ok("Operation succesful! You have deleted the category!");

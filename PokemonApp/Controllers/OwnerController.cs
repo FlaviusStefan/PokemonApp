@@ -22,51 +22,6 @@ namespace PokemonApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
-        public IActionResult GetOwners()
-        {
-            var owners = _mapper.Map<List<OwnerDto>>(_ownerRepository.GetOwners());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(owners);
-
-        }
-
-        [HttpGet("{ownerId}")]
-        [ProducesResponseType(200, Type = typeof(Owner))]
-        [ProducesResponseType(400)]
-        public IActionResult GetOwner(int ownerId)
-        {
-            if (!_ownerRepository.OwnerExists(ownerId))
-                return NotFound();
-
-            var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwner(ownerId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(owner);
-        }
-
-        [HttpGet("{ownerId}/pokemon")]
-        [ProducesResponseType(200, Type = typeof(Owner))]
-        [ProducesResponseType(400)]
-
-        public IActionResult GetPokemonByOwner(int ownerId)
-        {
-            if (!_ownerRepository.OwnerExists(ownerId))
-                return NotFound();
-
-            var owner = _mapper.Map<List<PokemonDto>>(_ownerRepository.GetPokemonByOwner(ownerId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(owner);
-        }
 
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
@@ -116,7 +71,7 @@ namespace PokemonApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
+            return Ok("Operation succesful! You have created the owner!");
         }
 
         [HttpPut("{ownerId}")]
@@ -146,16 +101,84 @@ namespace PokemonApp.Controllers
 
             if (!_ownerRepository.UpdateOwner(ownerMap))
             {
-                ModelState.AddModelError("", "Something went wrong updating owner!");
+                ModelState.AddModelError("", "Something went wrong updating the owner!");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
+            return Ok("Operation succesful! You have updated the owner!");
 
 
         }
 
+        [HttpDelete("{ownerId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteOwner(int ownerId)
+        {
+            if (!_ownerRepository.OwnerExists(ownerId))
+            {
+                return NotFound();
+            }
 
+            var ownerToDelete = _ownerRepository.GetOwner(ownerId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_ownerRepository.DeleteOwner(ownerToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            return Ok("Operation succesful! You have deleted the owner!");
+        }
+
+        [HttpGet("{ownerId}")]
+        [ProducesResponseType(200, Type = typeof(Owner))]
+        [ProducesResponseType(400)]
+        public IActionResult GetOwner(int ownerId)
+        {
+            if (!_ownerRepository.OwnerExists(ownerId))
+                return NotFound();
+
+            var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwner(ownerId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(owner);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
+        public IActionResult GetOwners()
+        {
+            var owners = _mapper.Map<List<OwnerDto>>(_ownerRepository.GetOwners());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(owners);
+
+        }
+       
+        [HttpGet("{ownerId}/pokemon")]
+        [ProducesResponseType(200, Type = typeof(Owner))]
+        [ProducesResponseType(400)]
+
+        public IActionResult GetPokemonByOwner(int ownerId)
+        {
+            if (!_ownerRepository.OwnerExists(ownerId))
+                return NotFound();
+
+            var owner = _mapper.Map<List<PokemonDto>>(_ownerRepository.GetPokemonByOwner(ownerId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(owner);
+        }
 
     }
 }

@@ -80,7 +80,7 @@ namespace PokemonApp.Controllers
 
             if (!_countryRepository.UpdateCountry(countryMap))
             {
-                ModelState.AddModelError("", "Something went wrong updating country!");
+                ModelState.AddModelError("", "Something went wrong updating the country!");
                 return StatusCode(500, ModelState);
             }
 
@@ -107,7 +107,7 @@ namespace PokemonApp.Controllers
 
             if (!_countryRepository.DeleteCountry(countryToDelete))
             {
-                ModelState.AddModelError("", "Something went wrong deleting category!");
+                ModelState.AddModelError("", "Something went wrong deleting the category!");
             }
 
             return Ok("Operation succesful! You have deleted the country!");

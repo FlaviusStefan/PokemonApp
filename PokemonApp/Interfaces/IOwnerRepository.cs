@@ -4,15 +4,14 @@ namespace PokemonApp.Interfaces
 {
     public interface IOwnerRepository
     {
-        ICollection<Owner> GetOwners();
-        Owner GetOwner(int ownerId);
-
-        ICollection<Owner>GetOwnerOfAPokemon(int pokeId);
-        ICollection<Pokemon> GetPokemonByOwner(int ownerId);
-        bool OwnerExists(int OwnerId);
-
         bool CreateOwner(Owner owner);
         bool UpdateOwner(Owner owner);
+        bool DeleteOwner(Owner owner);
+        Owner GetOwner(int ownerId);
+        ICollection<Owner> GetOwners();
+        ICollection<Owner>GetOwnerOfAPokemon(int pokeId);
+        ICollection<Pokemon> GetPokemonByOwner(int ownerId);
+        bool OwnerExists(int OwnerId);   
         bool Save();
     }
 }

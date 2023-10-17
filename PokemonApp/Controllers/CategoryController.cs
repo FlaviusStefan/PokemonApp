@@ -35,7 +35,7 @@ namespace PokemonApp.Controllers
 
             if (category != null)
             {
-                ModelState.AddModelError("", "Category already exists");
+                ModelState.AddModelError("", "Category already exists!");
                 return StatusCode(422, ModelState);
             }
 
@@ -46,11 +46,11 @@ namespace PokemonApp.Controllers
 
             if (!_categoryRepository.CreateCategory(categoryMap))
             {
-                ModelState.AddModelError("", "Something went wrong while saving");
+                ModelState.AddModelError("", "Something went wrong while saving!");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Operation succesful! You have created the category");
+            return Ok("Operation succesful! You have created the category!");
         }
 
 
@@ -85,7 +85,7 @@ namespace PokemonApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Operation succesful! You have updated the category");
+            return Ok("Operation succesful! You have updated the category!");
 
         }
 
@@ -107,10 +107,10 @@ namespace PokemonApp.Controllers
 
             if (!_categoryRepository.DeleteCategory(categoryToDelete))
             {
-                ModelState.AddModelError("", "Something went wrong deleting category");
+                ModelState.AddModelError("", "Something went wrong deleting category!");
             }
 
-            return Ok("Operation succesful! You have deleted the category");
+            return Ok("Operation succesful! You have deleted the category!");
 
         }
 

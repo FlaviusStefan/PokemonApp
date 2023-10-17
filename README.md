@@ -2,6 +2,8 @@
 
 Welcome to the Pokemon App API ! This API is designed to provide a set of endpoints for managing various aspects of a Pokemon-themed application, including categories, countries, owners, Pokemon, reviews, and reviewers. With this API, you can create, update, delete, and retrieve data related to these classes.
 
+
+
 ##################################################
 
 FEATURES
@@ -128,7 +130,9 @@ GET: /api/Reviewer/{reviewerId}
 
 GET: /api/Reviewer/{reviewerId}/reviews
 
+<br>
 
+##################################################
 
 
 

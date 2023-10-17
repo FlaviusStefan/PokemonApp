@@ -24,48 +24,6 @@ namespace PokemonApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{reviewId}")]
-        [ProducesResponseType(200, Type = typeof(Review))]
-        [ProducesResponseType(400)]
-        public IActionResult GetReview(int reviewId)
-        {
-            if (!_reviewRepository.ReviewExists(reviewId))
-                return NotFound();
-
-            var review = _mapper.Map<ReviewDto>(_reviewRepository.GetReview(reviewId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(review);
-        }
-
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
-        public IActionResult GetReviews()
-        {
-            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(reviews);
-
-        }       
-
-        [HttpGet("pokemon/{pokeId}")]
-        [ProducesResponseType(200, Type = typeof(Review))]
-        [ProducesResponseType(400)]
-
-        public IActionResult GetReviewsForAPokemon(int pokeId)
-        {
-            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfAPokemon(pokeId));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(reviews);
-        }
 
         [HttpPost]
         [ProducesResponseType(204)]
@@ -96,11 +54,11 @@ namespace PokemonApp.Controllers
 
             if (!_reviewRepository.CreateReview(reviewMap))
             {
-                ModelState.AddModelError("", "Something went wrong while saving");
+                ModelState.AddModelError("", "Something went wrong while saving!");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
+            return Ok("Operation succesful! You have created the review!");
         }
 
         [HttpPut("{reviewId}")]
@@ -134,7 +92,7 @@ namespace PokemonApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesful");
+            return Ok("Operation succesful! You have updated the review!");
         }
 
         [HttpDelete("{reviewId}")]
@@ -158,10 +116,9 @@ namespace PokemonApp.Controllers
                 ModelState.AddModelError("", "Something went wrong deleting owner");
             }
 
-            return NoContent();
+            return Ok("Operation succesful! You have deleted the review!");
         }
 
-        // Added missing delete range of reviews by a reviewer **>CK
         [HttpDelete("/DeleteReviewsByReviewer/{reviewerId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
@@ -180,7 +137,51 @@ namespace PokemonApp.Controllers
                 ModelState.AddModelError("", "error deleting reviews");
                 return StatusCode(500, ModelState);
             }
-            return NoContent();
+            return Ok("Operation succesful! You have deleted the reviews!");
         }
+
+        [HttpGet("{reviewId}")]
+        [ProducesResponseType(200, Type = typeof(Review))]
+        [ProducesResponseType(400)]
+        public IActionResult GetReview(int reviewId)
+        {
+            if (!_reviewRepository.ReviewExists(reviewId))
+                return NotFound();
+
+            var review = _mapper.Map<ReviewDto>(_reviewRepository.GetReview(reviewId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(review);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
+        public IActionResult GetReviews()
+        {
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(reviews);
+
+        }
+
+        [HttpGet("pokemon/{pokeId}")]
+        [ProducesResponseType(200, Type = typeof(Review))]
+        [ProducesResponseType(400)]
+
+        public IActionResult GetReviewsForAPokemon(int pokeId)
+        {
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfAPokemon(pokeId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(reviews);
+        }
+        
     }
 }

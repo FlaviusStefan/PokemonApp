@@ -17,8 +17,8 @@ namespace PokemonApp.Repository
 
         public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
         {
-            var pokemonOwnerEntity = _context.Owners.Where(a => a.Id == ownerId).FirstOrDefault();
-            var pokemonCategoryEntity = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
+            var pokemonOwnerEntity = _context.Owners.Where(o => o.Id == ownerId).FirstOrDefault();
+            var pokemonCategoryEntity = _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
             var pokemonOwner = new PokemonOwner()
             {

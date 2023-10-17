@@ -24,19 +24,6 @@ namespace PokemonApp.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
-        public IActionResult GetReviews()
-        {
-            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(reviews);
-
-        }
-
         [HttpGet("{reviewId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
@@ -52,6 +39,19 @@ namespace PokemonApp.Controllers
 
             return Ok(review);
         }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
+        public IActionResult GetReviews()
+        {
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(reviews);
+
+        }       
 
         [HttpGet("pokemon/{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
@@ -101,8 +101,6 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Succesful");
-
-
         }
 
         [HttpPut("{reviewId}")]
@@ -137,8 +135,52 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Succesful");
+        }
 
+        [HttpDelete("{reviewId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteReview(int reviewId)
+        {
+            if (!_reviewRepository.ReviewExists(reviewId))
+            {
+                return NotFound();
+            }
 
+            var reviewToDelete = _reviewRepository.GetReview(reviewId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.DeleteReview(reviewToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            return NoContent();
+        }
+
+        // Added missing delete range of reviews by a reviewer **>CK
+        [HttpDelete("/DeleteReviewsByReviewer/{reviewerId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteReviewsByReviewer(int reviewerId)
+        {
+            if (!_reviewerRepository.ReviewerExists(reviewerId))
+                return NotFound();
+
+            var reviewsToDelete = _reviewerRepository.GetReviewsByReviewer(reviewerId).ToList();
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!_reviewRepository.DeleteReviews(reviewsToDelete))
+            {
+                ModelState.AddModelError("", "error deleting reviews");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }

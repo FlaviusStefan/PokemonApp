@@ -14,7 +14,6 @@ namespace PokemonApp.Controllers
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-
         public PokemonController(IPokemonRepository pokemonRepository, IReviewRepository reviewRepository, IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
@@ -54,11 +53,11 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have created the pokemon!");
         }
 
+
         [HttpPut("{pokemonId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdatePokemon(int pokemonId,
                                            [FromQuery] int ownerId,
                                            [FromQuery] int categoryId,
@@ -91,6 +90,7 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have updated the pokemon!");
         }
 
+
         [HttpDelete("{pokeId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
@@ -121,6 +121,7 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have deleted the owner!");
         }
 
+
         [HttpGet("{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Pokemon))]
         [ProducesResponseType(400)]
@@ -137,6 +138,7 @@ namespace PokemonApp.Controllers
             return Ok(pokemon);
         }
 
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
         public IActionResult GetPokemons() 
@@ -146,16 +148,13 @@ namespace PokemonApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(pokemons);
-            
+            return Ok(pokemons);           
         }
-
            
 
         [HttpGet("{pokeId}/rating")]
         [ProducesResponseType(200, Type = typeof(decimal))]
         [ProducesResponseType(400)]
-
         public IActionResult GetPokemonRating(int pokeId)
         {
             if (!_pokemonRepository.PokemonExists(pokeId))
@@ -167,6 +166,7 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(rating);
-        }     
+        }    
+        
     }
 }

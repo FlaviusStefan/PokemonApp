@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
-using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -58,7 +57,6 @@ namespace PokemonApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
         {
             if (updatedCategory == null)
@@ -86,8 +84,8 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Operation succesful! You have updated the category!");
-
         }
+
 
         [HttpDelete("{categoryId}")]
         [ProducesResponseType(204)]
@@ -111,7 +109,6 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Operation succesful! You have deleted the category!");
-
         }
 
 
@@ -142,7 +139,6 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(categories);
-
         }
 
 
@@ -157,7 +153,7 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(pokemons);
-
-        }     
+        }  
+        
     }
 }

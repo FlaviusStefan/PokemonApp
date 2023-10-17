@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
-using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -15,7 +14,6 @@ namespace PokemonApp.Controllers
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IReviewerRepository _reviewerRepository;
         private readonly IMapper _mapper;
-
         public ReviewController(IReviewRepository reviewRepository, IPokemonRepository pokemonRepository, IReviewerRepository reviewerRepository, IMapper mapper)
         {
             _reviewRepository = reviewRepository;
@@ -39,7 +37,7 @@ namespace PokemonApp.Controllers
 
             if (review != null)
             {
-                ModelState.AddModelError("", "Review already exists");
+                ModelState.AddModelError("", "Review already exists!");
                 return StatusCode(422, ModelState);
             }
 
@@ -61,11 +59,11 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have created the review!");
         }
 
+
         [HttpPut("{reviewId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto updatedReview)
         {
             if (updatedReview == null)
@@ -95,6 +93,7 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have updated the review!");
         }
 
+
         [HttpDelete("{reviewId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
@@ -113,11 +112,12 @@ namespace PokemonApp.Controllers
 
             if (!_reviewRepository.DeleteReview(reviewToDelete))
             {
-                ModelState.AddModelError("", "Something went wrong deleting owner");
+                ModelState.AddModelError("", "Something went wrong deleting owner!");
             }
 
             return Ok("Operation succesful! You have deleted the review!");
         }
+
 
         [HttpDelete("/DeleteReviewsByReviewer/{reviewerId}")]
         [ProducesResponseType(400)]
@@ -134,11 +134,12 @@ namespace PokemonApp.Controllers
 
             if (!_reviewRepository.DeleteReviews(reviewsToDelete))
             {
-                ModelState.AddModelError("", "error deleting reviews");
+                ModelState.AddModelError("", "Error deleting reviews!");
                 return StatusCode(500, ModelState);
             }
             return Ok("Operation succesful! You have deleted the reviews!");
         }
+
 
         [HttpGet("{reviewId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
@@ -156,6 +157,7 @@ namespace PokemonApp.Controllers
             return Ok(review);
         }
 
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
         public IActionResult GetReviews()
@@ -166,13 +168,12 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(reviews);
-
         }
+
 
         [HttpGet("pokemon/{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
-
         public IActionResult GetReviewsForAPokemon(int pokeId)
         {
             var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviewsOfAPokemon(pokeId));

@@ -12,6 +12,7 @@ namespace PokemonApp.Repository
             _context = context;
         }
 
+
         public bool CreateCategory(Category category)
         {
             _context.Add(category);

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
-using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -53,11 +52,11 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have created the country!");
         }
 
+
         [HttpPut("{countryId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdateCountry(int countryId, [FromBody] CountryDto updatedCountry)
         {
             if (updatedCountry == null)
@@ -85,8 +84,6 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Operation succesful! You have updated the country!");
-
-
         }
 
         [HttpDelete("{countryId}")]
@@ -129,6 +126,7 @@ namespace PokemonApp.Controllers
             return Ok(country);
         }
 
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         public IActionResult GetCountries()
@@ -139,13 +137,11 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(countries);
-
         }
 
         [HttpGet("/owner/{ownerId}")]
         [ProducesResponseType(200, Type = typeof(Country))]
         [ProducesResponseType(400)]
-
         public IActionResult GetCountryOfAnOwner(int ownerId) 
         {
             var country = _mapper.Map<CountryDto>(

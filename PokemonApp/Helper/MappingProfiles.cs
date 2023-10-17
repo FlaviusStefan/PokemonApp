@@ -25,8 +25,6 @@ namespace PokemonApp.Helper
 
             CreateMap<Reviewer, ReviewerDto>();
             CreateMap<ReviewerDto, Reviewer>();
-
-
         }
     }
 }

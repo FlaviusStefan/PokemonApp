@@ -14,6 +14,7 @@ namespace PokemonApp.Repository
             _context = context;
         }
 
+
         public bool CreateReviewer(Reviewer reviewer)
         {
             _context.Add(reviewer);

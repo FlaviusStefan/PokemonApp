@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
-using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -13,7 +12,6 @@ namespace PokemonApp.Controllers
     {
         private readonly IReviewerRepository _reviewerRepository;
         private readonly IMapper _mapper;
-
         public ReviewerController(IReviewerRepository reviewerRepository, IMapper mapper)
         {
             _reviewerRepository = reviewerRepository;
@@ -53,11 +51,11 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have created the reviewer!");
         }
 
+
         [HttpPut("{reviewerId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdateReviewer(int reviewerId, [FromBody] ReviewerDto updatedReviewer)
         {
             if (updatedReviewer == null)
@@ -85,9 +83,8 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Operation succesful! You have updated the reviewer!");
-
-
         }
+
 
         [HttpDelete("{reviewerId}")]
         [ProducesResponseType(400)]
@@ -113,18 +110,6 @@ namespace PokemonApp.Controllers
             return Ok("Operation succesful! You have deleted the reviewer!");
         }
 
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Reviewer>))]
-        public IActionResult GetReviewers()
-        {
-            var reviewers = _mapper.Map<List<ReviewerDto>>(_reviewerRepository.GetReviewers());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(reviewers);
-
-        }
 
         [HttpGet("{reviewerId}")]
         [ProducesResponseType(200, Type = typeof(Reviewer))]
@@ -142,10 +127,23 @@ namespace PokemonApp.Controllers
             return Ok(reviewer);
         }
 
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Reviewer>))]
+        public IActionResult GetReviewers()
+        {
+            var reviewers = _mapper.Map<List<ReviewerDto>>(_reviewerRepository.GetReviewers());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(reviewers);
+        }
+
+ 
         [HttpGet("{reviewerId}/reviews")]
         [ProducesResponseType(200, Type = typeof(Reviewer))]
         [ProducesResponseType(400)]
-
         public IActionResult GetReviewsByReviewer(int reviewerId)
         {
             if (!_reviewerRepository.ReviewerExists(reviewerId))
@@ -158,7 +156,6 @@ namespace PokemonApp.Controllers
 
             return Ok(reviews);
         }
-
         
     }
 }

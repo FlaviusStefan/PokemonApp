@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonApp.DTOs;
 using PokemonApp.Interfaces;
 using PokemonApp.Models;
-using PokemonApp.Repository;
 
 namespace PokemonApp.Controllers
 {
@@ -37,7 +36,7 @@ namespace PokemonApp.Controllers
 
             if (owner != null)
             {
-                ModelState.AddModelError("", "Owner already exists");
+                ModelState.AddModelError("", "Owner already exists!");
                 return StatusCode(422, ModelState);
             }
 
@@ -67,18 +66,18 @@ namespace PokemonApp.Controllers
 
             if (!_ownerRepository.CreateOwner(ownerMap))
             {
-                ModelState.AddModelError("", "Something went wrong while saving");
+                ModelState.AddModelError("", "Something went wrong while saving!");
                 return StatusCode(500, ModelState);
             }
 
             return Ok("Operation succesful! You have created the owner!");
         }
 
+
         [HttpPut("{ownerId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-
         public IActionResult UpdateOwner(int ownerId, [FromBody] OwnerDto updatedOwner)
         {
             if (updatedOwner == null)
@@ -106,9 +105,8 @@ namespace PokemonApp.Controllers
             }
 
             return Ok("Operation succesful! You have updated the owner!");
-
-
         }
+
 
         [HttpDelete("{ownerId}")]
         [ProducesResponseType(400)]
@@ -128,7 +126,7 @@ namespace PokemonApp.Controllers
 
             if (!_ownerRepository.DeleteOwner(ownerToDelete))
             {
-                ModelState.AddModelError("", "Something went wrong deleting owner");
+                ModelState.AddModelError("", "Something went wrong deleting owner!");
             }
 
             return Ok("Operation succesful! You have deleted the owner!");
@@ -160,13 +158,11 @@ namespace PokemonApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(owners);
-
         }
        
         [HttpGet("{ownerId}/pokemon")]
         [ProducesResponseType(200, Type = typeof(Owner))]
         [ProducesResponseType(400)]
-
         public IActionResult GetPokemonByOwner(int ownerId)
         {
             if (!_ownerRepository.OwnerExists(ownerId))
